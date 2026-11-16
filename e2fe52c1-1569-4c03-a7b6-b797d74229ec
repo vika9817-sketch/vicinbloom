@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>vic.in.bloom</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400&family=Playfair+Display:wght@400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#fefaf0; --dark:#403f2b; --olive:#c4c197; --sage:#e1e2cf; --grey:#666460;
+  --serif:'Fraunces',Georgia,serif;
+  --sans:'Helvetica Neue','HelveticaNeue-Light',Helvetica,Arial,sans-serif;
+  --avenir:'Avenir Next','Avenir','Helvetica Neue',Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--dark);font-family:var(--sans);font-weight:300;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit}
+.serif{font-family:var(--serif);font-weight:400;font-variation-settings:'opsz' 120;line-height:1}
+.page{display:none}
+.page.active{display:block}
+
+/* Header */
+header.site{position:sticky;top:0;z-index:50;background:var(--cream);height:115px;display:flex;align-items:center;justify-content:space-between;padding:0 100px 0 111px}
+.menu-btn{background:none;border:0;font-family:var(--serif);font-weight:400;font-variation-settings:'opsz' 120;font-size:25px;color:var(--dark);cursor:pointer}
+.brand{font-family:var(--serif);font-weight:400;font-variation-settings:'opsz' 120;font-size:30px;text-decoration:none;position:absolute;left:50%;transform:translateX(-50%)}
+.logo img{width:97px;height:97px}
+.overlay{position:fixed;inset:0;background:var(--olive);z-index:100;display:none;flex-direction:column;align-items:center;overflow:auto}
+.overlay.open{display:flex}
+.overlay .top{width:100%;display:flex;justify-content:center;align-items:center;height:115px;position:relative;flex:none}
+.overlay .close{position:absolute;left:30px;top:40px;background:none;border:0;font-size:34px;line-height:1;color:var(--dark);cursor:pointer;font-weight:200}
+.overlay nav{display:flex;flex-direction:column;align-items:center;gap:6px;padding:40px 20px 60px}
+.overlay nav a{font-family:var(--serif);font-weight:400;font-variation-settings:'opsz' 120;font-size:clamp(34px,5vw,64px);text-decoration:none;line-height:1.2;text-align:center}
+.overlay nav a:hover{opacity:.65}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;width:142px;height:40px;background:var(--dark);color:var(--cream);text-decoration:none;font-family:var(--sans);font-weight:300;font-size:16px;letter-spacing:.1em;border:0;cursor:pointer}
+.btn:hover{opacity:.85}
+.btn.light{background:var(--cream);color:var(--grey);border-radius:20px;letter-spacing:0;font-size:14px;font-family:var(--avenir)}
+.btn.wide{width:238px}
+
+/* Home */
+.hero{position:relative;height:575px;background:url(img/hero.jpg) center 35%/cover;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#fff}
+.hero::before{content:"";position:absolute;inset:0;background:rgba(64,63,43,.38)}
+.hero>*{position:relative}
+.hero h1{font-size:clamp(64px,13.75vw,176px);line-height:.9;color:#fff}
+.hero p{font-family:var(--serif);font-weight:400;font-variation-settings:'opsz' 120;font-size:clamp(20px,2.7vw,35px);color:var(--cream);margin-top:30px}
+.create{padding:20px 0 70px;text-align:center}
+.create h2{font-size:clamp(44px,5.4vw,69px);line-height:1.4}
+.cards{display:flex;gap:40px;padding:30px 0 0 166px}
+.card{width:297px;text-align:center;text-decoration:none}
+.card .ph{position:relative;height:340px;border-radius:16px;overflow:hidden}
+.card .ph img{width:100%;height:100%;object-fit:cover}
+.card .ph span{position:absolute;left:0;right:0;bottom:24px;color:#fff;font-family:var(--sans);font-weight:700;font-size:30px;text-shadow:0 1px 6px rgba(0,0,0,.35)}
+.card b{display:block;font-weight:700;font-size:20px;margin-top:14px;text-decoration:underline}
+.card .pr{font-size:20px}
+.split{display:grid;grid-template-columns:1fr 1fr;min-height:615px}
+.split .txt{display:flex;flex-direction:column;justify-content:center;padding:60px 60px 60px 107px}
+.split .txt h3{font-size:65px;line-height:1;max-width:360px}
+.split .txt p{font-size:20px;margin-top:40px}
+.split .txt .btn{margin-top:40px}
+.split .img{position:relative;overflow:hidden}
+.split .img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.bg-olive{background:var(--olive)} .bg-dark{background:var(--dark);color:var(--olive)} .bg-sage{background:var(--sage)}
+.split.rev .txt{padding-left:104px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);max-width:1040px;margin:0 auto;padding:44px 20px 50px;text-align:center}
+.stats .n{font-size:65px}
+.stats .l{font-family:var(--serif);font-weight:400;font-variation-settings:'opsz' 120;font-size:23px;line-height:1.4;margin:34px auto 0;max-width:160px}
+.testi{background:var(--dark);color:#fff;height:460px;position:relative;display:flex;align-items:center;justify-content:center}
+.testi .slide{display:none;max-width:800px;padding:0 60px;font-family:'Playfair Display',serif;font-size:clamp(20px,2.35vw,30px);line-height:1.8}
+.testi .slide.on{display:block;animation:fade .6s}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.testi .arr{position:absolute;top:50%;transform:translateY(-50%);background:none;border:0;color:#fff;font-size:30px;cursor:pointer;padding:10px 20px;font-weight:200}
+.testi .prev{left:80px}.testi .next{right:80px}
+.testi .dots{position:absolute;bottom:50px;display:flex;gap:12px}
+.testi .dots button{width:6px;height:6px;border-radius:50%;border:0;background:#e8e6e6;opacity:.6;cursor:pointer;padding:0}
+.testi .dots button.on{background:#fff;opacity:1}
+.gift{height:648px;background:url(img/9987.jpg) center/cover;display:flex;align-items:center;justify-content:center}
+.gift .box{background:var(--cream);width:480px;max-width:90%;padding:46px 40px 50px;text-align:center}
+.gift h3{font-size:39px;line-height:1.2}
+.gift p{margin:22px auto 30px;max-width:390px;line-height:1.8}
+.follow{text-align:center;padding:40px 0 60px}
+.follow h2{font-size:35px;line-height:1.4}
+.follow .handle{font-family:var(--serif);font-weight:400;font-variation-settings:'opsz' 120;font-size:clamp(40px,5vw,65px);text-decoration:none;display:inline-block;margin-top:4px}
+.feed{position:relative;max-width:1064px;margin:40px auto 0;padding:0 12px}
+.feed .track{display:flex;gap:24px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.feed .track::-webkit-scrollbar{display:none}
+.feed .track a{flex:0 0 280px;height:280px;scroll-snap-align:start;overflow:hidden}
+.feed .track img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.feed .track a:hover img{transform:scale(1.04)}
+.feed .nx{position:absolute;right:0;top:50%;transform:translateY(-50%);width:50px;height:50px;border-radius:50%;background:rgba(255,255,255,.6);border:0;cursor:pointer;font-size:20px;color:var(--dark)}
+
+/* Footer */
+footer.site{background:var(--olive);padding:40px 109px 40px;min-height:285px}
+footer .grid{display:grid;grid-template-columns:600px 130px 1fr;gap:0}
+footer .big{font-size:65px;line-height:1}
+footer .tag{max-width:400px;line-height:1.9;margin-top:12px}
+footer nav a{display:block;line-height:40px;text-decoration:underline}
+footer .legal{line-height:1.6}
+footer .legal b{font-weight:700}
+
+/* Giftcard */
+.intro{padding:70px 172px 40px}
+.intro h1{font-size:56px;line-height:.9}
+.intro p{max-width:732px;margin-top:40px}
+.intro p+p{margin-top:0}
+.intro .btn{margin-top:26px}
+.three{display:grid;grid-template-columns:repeat(3,295px);gap:60px;justify-content:center;padding:60px 0 80px}
+.three .c img{width:295px;height:323px;object-fit:cover}
+.three .c .t{background:var(--olive);margin:-40px 0 0 22px;position:relative;padding:22px 22px 26px;min-height:180px}
+.three .c h4{font-family:var(--serif);font-weight:400;font-variation-settings:'opsz' 120;font-size:20px;line-height:1.4;margin-bottom:10px}
+.three .c ul{padding-left:28px}
+.three .c li{font-size:14px;line-height:1.7}
+.formsec{display:grid;grid-template-columns:1fr 1fr;padding:50px 90px 90px;gap:40px}
+.formsec .left{position:relative;min-height:640px}
+.formsec h2{font-size:56px;line-height:1.15;max-width:300px;position:relative;z-index:1}
+.formsec .p1{position:absolute;left:318px;top:74px;width:283px;height:466px;object-fit:cover}
+.formsec .p2{position:absolute;left:89px;top:442px;width:310px;height:206px;object-fit:cover;z-index:2}
+form.f{background:var(--cream);width:341px;padding:24px;align-self:start;justify-self:center}
+form.f.wide{width:500px}
+.f label{display:block;font-size:14px;line-height:1.4;margin:0 0 8px}
+.f .fld{margin-bottom:28px}
+.f input,.f select,.f textarea{width:100%;height:42px;border:1px solid rgba(64,63,43,.6);background:var(--cream);font:inherit;font-size:14px;color:var(--dark);padding:0 12px;border-radius:0}
+.f textarea{height:92px;padding:10px 12px;resize:vertical}
+.f .hint{font-size:14px;color:var(--grey);margin-top:6px}
+.f .phone{display:flex;align-items:center;border:1px solid rgba(64,63,43,.6);height:42px}
+.f .phone span{padding:0 6px 0 12px;font-size:13px;white-space:nowrap}
+.f .phone input{border:0;height:40px;padding-left:4px}
+.f button{width:100%;height:41px;background:var(--dark);color:var(--cream);border:0;font:inherit;font-size:16px;cursor:pointer}
+.f .msg{margin-top:14px;font-size:14px;line-height:1.5;display:none}
+.f .msg.on{display:block}
+
+/* Picking pages */
+.pick{position:relative;padding:181px 80px 120px 0;min-height:922px}
+.pick .ph{margin-left:427px;height:622px}
+.pick .ph img{width:100%;height:100%;object-fit:cover}
+.pick .panel{position:absolute;left:100px;top:134px;width:500px;min-height:715px;background:var(--dark);color:var(--cream);padding:73px 50px 60px 27px}
+.pick h1{font-size:56px;line-height:1.15}
+.pick .body{font-size:16px;line-height:1.6;margin-top:28px;max-width:430px}
+.pick .body p+p{margin-top:0}
+.pick .meta{font-size:13px;line-height:1.8;font-style:italic;margin-top:14px}
+.pick .meta b{font-weight:700}
+.pick .btn{margin-top:20px}
+.get{text-align:center;padding:20px 0 40px}
+.get h2{font-family:var(--serif);font-weight:400;font-variation-settings:'opsz' 120;font-size:38px}
+.get .boxes{display:grid;grid-template-columns:repeat(3,300px);gap:30px;justify-content:center;margin-top:24px}
+.get .boxes div{border:1px solid var(--dark);min-height:150px;display:flex;align-items:center;justify-content:center;padding:20px 26px;font-size:14px;line-height:1.6}
+.closing{text-align:center;padding:60px 20px 80px}
+.closing p{font-size:20px;line-height:1.8;max-width:863px;margin:0 auto 40px}
+
+/* On demand */
+.band{background:var(--olive);text-align:center;padding:90px 20px 60px}
+.band h1{font-size:clamp(40px,5vw,65px);line-height:1;max-width:948px;margin:0 auto}
+.band p{font-size:20px;max-width:660px;margin:30px auto 0}
+.how{position:relative;padding:70px 80px 150px}
+.how img{width:707px;height:362px;object-fit:cover}
+.how .t{position:absolute;left:557px;right:80px;top:140px;background:var(--olive);padding:80px 60px 70px;min-height:386px}
+.how h3{font-size:56px}
+.how ul{margin-top:30px;padding-left:20px}
+.plan{text-align:center;padding:30px 20px 80px}
+.plan h2{font-size:65px}
+.plan .sub{font-size:14px;margin:14px 0 20px}
+.plan form{text-align:left;margin:0 auto}
+
+/* FAQ */
+.faq{max-width:980px;margin:35px auto 70px;padding:32px}
+.faq h1{font-size:65px;line-height:1.2}
+.faq .tab{display:inline-block;margin:80px 0 0 27px;border-bottom:1px solid var(--dark);padding-bottom:10px}
+.faq .list{margin-top:30px;display:flex;flex-direction:column;gap:12px}
+.faq details{border:1px solid rgba(64,63,43,.6);background:var(--cream)}
+.faq summary{list-style:none;cursor:pointer;padding:27px 60px 27px 25px;font-size:18px;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"";position:absolute;right:28px;top:34px;width:9px;height:9px;border-right:1px solid var(--dark);border-bottom:1px solid var(--dark);transform:rotate(45deg)}
+.faq details[open] summary::after{transform:rotate(-135deg);top:38px}
+.faq details div{padding:0 60px 30px 25px;line-height:1.5}
+
+/* Contact */
+.contact .band{background:var(--cream);padding:90px 20px 50px}
+.contact-split{display:grid;grid-template-columns:1fr 1fr;min-height:585px}
+.contact-split .txt{padding:160px 40px 60px 83px}
+.contact-split h2{font-size:65px}
+.contact-split p{font-size:20px;margin-top:22px}
+.contact-split .img img{width:100%;height:100%;object-fit:cover}
+
+/* Shop */
+.shop{padding:0 20px 60px}
+.crumbs{padding:4px 0 20px;font-size:16px}
+.crumbs a{text-decoration:none}
+.banner{height:280px;object-fit:cover;width:100%}
+.shop h1{font-family:var(--serif);font-weight:400;font-variation-settings:'opsz' 120;font-size:28px;margin-top:24px}
+.shop .desc{max-width:672px;margin-top:8px}
+.shop .body{display:grid;grid-template-columns:200px 1fr;gap:40px;margin-top:60px}
+.shop .side h4{font-family:var(--serif);font-weight:400;font-variation-settings:'opsz' 120;font-size:20px;border-bottom:1px solid rgba(64,63,43,.3);padding-bottom:14px;margin-bottom:20px}
+.shop .side a{display:block;text-decoration:none;line-height:2.05}
+.shop .bar{display:flex;justify-content:space-between;font-size:14px;color:var(--grey);margin-bottom:20px}
+.shop .bar span:last-child{color:var(--dark);font-size:16px}
+.prod{width:320px;display:block;text-decoration:none}
+.prod .pi{position:relative;height:320px}
+.prod .pi img{width:100%;height:100%;object-fit:cover}
+.prod .pi span{position:absolute;left:13px;top:12px;background:var(--dark);color:var(--cream);font-size:14px;padding:2px 12px}
+.prod p{margin-top:12px}.prod .pp{color:var(--grey)}
+.product{display:grid;grid-template-columns:1fr 1fr;gap:60px;max-width:1000px;margin:20px auto 80px;padding:0 20px}
+.product img{width:100%;aspect-ratio:2/3;object-fit:cover}
+.product h1{font-family:var(--serif);font-weight:400;font-variation-settings:'opsz' 120;font-size:32px}
+.product .price{font-size:20px;margin:10px 0 24px}
+.product .qty{width:100px;height:40px;border:1px solid rgba(64,63,43,.6);background:var(--cream);font:inherit;padding:0 10px;margin:6px 0 20px}
+.product .btn{width:100%;margin-bottom:10px}
+.product .btn.outline{background:transparent;color:var(--dark);border:1px solid var(--dark)}
+.product .note{font-size:14px;margin:4px 0 14px;display:none}.product .note.on{display:block}
+.product details{border-top:1px solid rgba(64,63,43,.3);padding:16px 0}
+.product details:last-child{border-bottom:1px solid rgba(64,63,43,.3)}
+.product summary{cursor:pointer;letter-spacing:.08em;font-size:14px}
+.product details p{margin-top:12px;font-size:15px}
+
+/* Responsive */
+@media (max-width:1000px){
+  header.site{padding:0 20px;height:80px}
+  .brand{font-size:22px}.logo img{width:60px;height:60px}.menu-btn{font-size:20px}
+  .cards{justify-content:center;padding-left:0}
+  .split,.split.rev{grid-template-columns:1fr}
+  .split .img{min-height:420px}
+  .split.rev .img{order:-1}
+  .split .txt,.split.rev .txt{padding:60px 30px}
+  .split .txt h3{font-size:48px}
+  .stats{grid-template-columns:1fr 1fr;row-gap:40px}
+  .testi .prev{left:6px}.testi .next{right:6px}
+  .testi{height:auto;padding:70px 0 90px}
+  footer.site{padding:40px 30px}
+  footer .grid{grid-template-columns:1fr;gap:30px}
+  footer .big{font-size:48px}
+  .intro{padding:50px 30px 30px}
+  .three{grid-template-columns:295px;gap:50px}
+  .formsec{grid-template-columns:1fr;padding:40px 30px 70px}
+  .formsec .left{min-height:auto}
+  .formsec .p1,.formsec .p2{position:static;width:100%;height:300px;margin-top:20px}
+  form.f,form.f.wide{width:100%;max-width:500px}
+  .pick{padding:20px 0 60px;min-height:0}
+  .pick .ph{margin:0;height:360px}
+  .pick .panel{position:static;width:auto;min-height:0;padding:50px 30px}
+  .pick h1{font-size:44px}
+  .get .boxes{grid-template-columns:1fr;max-width:320px;margin:24px auto 0}
+  .how{padding:40px 20px 60px}.how img{width:100%;height:300px}
+  .how .t{position:static;padding:40px 30px}
+  .plan h2,.faq h1,.contact-split h2{font-size:44px}
+  .contact-split{grid-template-columns:1fr}
+  .contact-split .txt{padding:40px 30px}
+  .contact-split .img{height:400px}
+  .shop .body{grid-template-columns:1fr}
+  .product{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <button class="menu-btn" id="openMenu" aria-label="Menu">Menu</button>
+  <a class="brand" href="#home">vic.in.bloom</a>
+  <a class="logo" href="#home"><img src="img/logo.png" alt="vic.in.bloom logo"></a>
+</header>
+
+<div class="overlay" id="menu" role="dialog" aria-label="Site menu">
+  <div class="top"><button class="close" id="closeMenu" aria-label="Close">&#x2715;</button><a class="brand" href="#home" style="position:static;transform:none">vic.in.bloom</a></div>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#giftcard">Giftcard</a>
+    <a href="#wild-flowers-picking">Wild Flowers Picking</a>
+    <a href="#dahlia-flower-picking">Dahlia Flower Picking</a>
+    <a href="#on-demand-workshop">On Demand Flower Workshop</a>
+    <a href="#faq">FAQ</a>
+    <a href="#contact">Contact</a>
+    <a href="#shop">Shop</a>
+  </nav>
+</div>
+
+<main>
+<!-- ================= HOME ================= -->
+<section class="page" id="p-home">
+  <div class="hero">
+    <h1 class="serif">Vic in bloom</h1>
+    <p>self care &amp; beauty through flowers</p>
+  </div>
+
+  <div class="create">
+    <h2 class="serif">Create with me</h2>
+    <div class="cards">
+      <a class="card" href="#dahlia-flower-picking">
+        <div class="ph"><img src="img/9972.jpg" alt="Dahlia Flower Picking"><span>26 September</span></div>
+        <b>Dahlia Flower Picking</b>
+        <div class="pr">39,9€</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="split">
+    <div class="txt bg-olive"><h3 class="serif">Flower school online</h3><p>Coming soon</p></div>
+    <div class="img"><img src="img/9956.jpg" alt=""></div>
+  </div>
+  <div class="split rev">
+    <div class="img"><img src="img/9949.jpg" alt=""></div>
+    <div class="txt bg-dark"><h3 class="serif">Private Floral Coaching</h3><p>Coming soon</p></div>
+  </div>
+  <div class="split">
+    <div class="txt bg-sage"><h3 class="serif">On-demand workshop</h3><div><a class="btn" href="#on-demand-workshop">More</a></div></div>
+    <div class="img"><img src="img/9979.jpg" alt=""></div>
+  </div>
+
+  <div class="stats">
+    <div><div class="n serif">400+</div><div class="l">Participants joined</div></div>
+    <div><div class="n serif">50+</div><div class="l">Workshops hosted</div></div>
+    <div><div class="n serif">8</div><div class="l">Years<br>of experience</div></div>
+    <div><div class="n serif">10%</div><div class="l">Return customers</div></div>
+  </div>
+
+  <div class="testi" id="testi">
+    <button class="arr prev" aria-label="Previous">&#x2039;</button>
+    <div class="slide on">"I only have positive things to say about the event. Vic is really sweet and created a nice safe environment for meeting and sharing with the other girls. The positive energy was there the entire time."</div>
+    <div class="slide">"I got to learn quite a lot about the flowers that I didn't know before. The workshop itself was amazing, Vic offered support when it was needed and soft guidance but also let you go into your own creative mode to express your vision."</div>
+    <div class="slide">"Vic offers beautiful flower workshops, you can tell she loves doing flower arrangements and she is super knowledgeable on it. She also helps you as much as needed for those of us that struggle by putting the bouquet together. If you get the chance, don't miss the possibility to join her for a workshop!"</div>
+    <button class="arr next" aria-label="Next">&#x203A;</button>
+    <div class="dots"><button class="on" aria-label="Slide 1"></button><button aria-label="Slide 2"></button><button aria-label="Slide 3"></button></div>
+  </div>
+
+  <div class="gift">
+    <div class="box">
+      <h3 class="serif">Looking for a special gift?</h3>
+      <p>We’ve got you - choose a gift card for any amount or a specific floral workshop.</p>
+      <a class="btn" href="#giftcard" style="letter-spacing:0;font-size:14px;font-family:var(--avenir)">More</a>
+    </div>
+  </div>
+
+  <div class="follow">
+    <h2 class="serif">Follow Me</h2>
+    <a class="handle" href="https://www.instagram.com/vic.in.bloom/" target="_blank" rel="noopener">@vic.in.bloom</a>
+    <div class="feed">
+      <div class="track" id="feed">
+        <a href="https://www.instagram.com/vic.in.bloom/" target="_blank" rel="noopener"><img src="img/9933.jpg" alt=""></a>
+        <a href="https://www.instagram.com/vic.in.bloom/" target="_blank" rel="noopener"><img src="img/9941.jpg" alt=""></a>
+        <a href="https://www.instagram.com/vic.in.bloom/" target="_blank" rel="noopener"><img src="img/9945.jpg" alt=""></a>
+        <a href="https://www.instagram.com/vic.in.bloom/" target="_blank" rel="noopener"><img src="img/9953.jpg" alt=""></a>
+        <a href="https://www.instagram.com/vic.in.bloom/" target="_blank" rel="noopener"><img src="img/9974.jpg" alt=""></a>
+        <a href="https://www.instagram.com/vic.in.bloom/" target="_blank" rel="noopener"><img src="img/9943.jpg" alt=""></a>
+        <a href="https://www.instagram.com/vic.in.bloom/" target="_blank" rel="noopener"><img src="img/9938.jpg" alt=""></a>
+        <a href="https://www.instagram.com/vic.in.bloom/" target="_blank" rel="noopener"><img src="img/9977.jpg" alt=""></a>
+        <a href="https://www.instagram.com/vic.in.bloom/" target="_blank" rel="noopener"><img src="img/9981.jpg" alt=""></a>
+        <a href="https://www.instagram.com/vic.in.bloom/" target="_blank" rel="noopener"><img src="img/9989.jpg" alt=""></a>
+      </div>
+      <button class="nx" id="feedNext" aria-label="More posts">&#x203A;</button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= GIFTCARD ================= -->
+<section class="page" id="p-giftcard">
+  <div class="intro">
+    <h1 class="serif">Giftcard</h1>
+    <p>Give a floral workshop experience - creative, calming, and memorable.</p>
+    <p>This gift card invites your loved one to design their own floral arrangement in a warm and inspiring atmosphere.<br>Each workshop is hands-on, beginner-friendly, and includes all flowers and materials, guided step by step. Perfect for birthdays, special occasions, or simply a thoughtful surprise.</p>
+    <a class="btn" href="#giftform" data-scroll="giftform">Buy</a>
+  </div>
+  <div class="three">
+    <div class="c"><img src="img/9972.jpg" alt=""><div class="t"><h4>Choose your gift</h4><ul><li>Any amount - let them choose their preferred workshop</li><li>Specific workshop - gift a spot for a selected experience</li></ul></div></div>
+    <div class="c"><img src="img/9950.jpg" alt=""><div class="t"><h4>How it works</h4><ul><li>Explore available workshops on the website</li><li>Choose a preferred date and theme</li><li>Reserve the spot by contacting via email</li></ul></div></div>
+    <div class="c"><img src="img/9969.jpg" alt=""><div class="t"><h4>Good to know</h4><ul><li>All flowers and materials provided</li><li>No experience needed</li><li>Valid for any available workshop date</li></ul></div></div>
+  </div>
+  <div class="formsec" id="giftform">
+    <div class="left">
+      <h2 class="serif">Fill in the details and we’ll take care of your gift card.</h2>
+      <img class="p1" src="img/9947.jpg" alt="">
+      <img class="p2" src="img/9936.jpg" alt="">
+    </div>
+    <form class="f" data-form="Giftcard request form" novalidate>
+      <div class="fld"><label>Your name *</label><input name="Your name" required></div>
+      <div class="fld"><label>Your email *</label><input name="Your email" type="email" required></div>
+      <div class="fld"><label>Your phone *</label><div class="phone"><span>🇳🇱 +31</span><input name="Your phone" type="tel" required></div></div>
+      <div class="fld"><label>How would you like the giftcard to be sent? *</label>
+        <select name="Delivery" required><option value=""></option><option>Send it to me</option><option>Send it to receiver directly</option></select></div>
+      <button type="submit">Submit</button>
+      <div class="msg" role="status"></div>
+    </form>
+  </div>
+</section>
+
+<!-- ================= WILD FLOWERS ================= -->
+<section class="page" id="p-wild-flowers-picking">
+  <div class="pick">
+    <div class="ph"><img src="img/9987.jpg" alt=""></div>
+    <div class="panel">
+      <h1 class="serif">Wild Flowers Picking Experience</h1>
+      <div class="body">
+        <p>Step into the countryside and discover where flowers begin their journey. We'll start with a guided walking tour through an eco-friendly flower field, where you'll learn how seasonal flowers are grown and cared for before harvesting your own blooms.</p>
+        <p>After gathering your favorite flowers, we'll create beautiful hand-tied bouquets surrounded by nature. It's a chance to slow down, enjoy the colors and scents of the season, and reconnect with nature through flowers.</p>
+      </div>
+      <div class="meta">The exact location will be provided after your booking is confirmed.<br>Date: 29 August 2026<br><b>39,9 EUR</b></div>
+      <a class="btn light" href="https://ig.me/m/vic.in.bloom" target="_blank" rel="noopener">Sign Up</a>
+    </div>
+  </div>
+  <div class="get"><h2>What you get</h2><div class="boxes">
+    <div>Harvest your own blooms directly from the field and take home a bouquet you gathered yourself.</div>
+    <div>Time in nature, meaningful connection, and the joy of working with flowers at their source.</div>
+    <div>From garden to arrangement: expert tips on handpicking flowers and extending their vase life.</div>
+  </div></div>
+  <div class="closing"><p>Spend a day surrounded by open fields and blooming rows of seasonal flowers, harvesting each stem by hand and experiencing the quiet beauty of nature at its source.</p>
+    <a class="btn wide" href="https://ig.me/m/vic.in.bloom" target="_blank" rel="noopener">Register</a></div>
+</section>
+
+<!-- ================= DAHLIA ================= -->
+<section class="page" id="p-dahlia-flower-picking">
+  <div class="pick">
+    <div class="ph"><img src="img/9987.jpg" alt=""></div>
+    <div class="panel">
+      <h1 class="serif">Dahlia Flower Picking Experience</h1>
+      <div class="body">
+        <p>Step into a breathtaking field of blooming dahlias and enjoy a unique flower-picking experience surrounded by thousands of vibrant blooms. Wander through the rows, hand-pick your favorite dahlias, and learn a little about these stunning seasonal flowers along the way.</p>
+        <p>After filling your bucket with beautiful blooms, we'll gather to create a hand-tied bouquet to take home. We'll finish the experience by relaxing together with drinks and dessert provided at the end - a perfect way to celebrate a slow summer afternoon surrounded by flowers.</p>
+      </div>
+      <div class="meta">The exact location will be provided after your booking is confirmed.<br>Date: 15 August, 26 September 2026<br><b>39,9 EUR</b></div>
+      <a class="btn light" href="https://ig.me/m/vic.in.bloom" target="_blank" rel="noopener">Sign Up</a>
+    </div>
+  </div>
+  <div class="get"><h2>What you get</h2><div class="boxes">
+    <div>Harvest your own blooms directly from the field and take home a bouquet you gathered yourself.</div>
+    <div>Time in nature, meaningful connection, and the joy of working with flowers at their source.</div>
+    <div>From garden to arrangement: expert tips on handpicking flowers and extending their vase life.</div>
+  </div></div>
+  <div class="closing"><p>Spend a day surrounded by open fields and blooming rows of seasonal flowers, harvesting each stem by hand and experiencing the quiet beauty of nature at its source.</p>
+    <a class="btn wide" href="https://ig.me/m/vic.in.bloom" target="_blank" rel="noopener">Register</a></div>
+</section>
+
+<!-- ================= ON DEMAND ================= -->
+<section class="page" id="p-on-demand-workshop">
+  <div class="band">
+    <h1 class="serif">Looking for unique experience for your group?</h1>
+    <p>Create a custom floral workshop tailored to your occasion - from birthdays to team events and private gatherings.</p>
+  </div>
+  <div class="split" style="min-height:615px">
+    <div class="txt" style="padding-left:83px">
+      <h3 class="serif" style="font-size:51px;max-width:431px">What is an on-demand workshop?</h3>
+      <p style="font-size:16px;margin-top:50px;max-width:473px">A private floral experience designed around your needs.<br>Whether you’re celebrating something special or simply want to gather people in a creative setting, I’ll create a workshop that fits your group, style, and occasion.</p>
+      <p style="font-size:16px;margin-top:24px;max-width:473px">Each session is hands-on, relaxed, and guided step by step - so everyone can enjoy the process and leave with something beautiful.</p>
+    </div>
+    <div class="img"><img src="img/9960.jpg" alt=""></div>
+  </div>
+  <div class="get" style="padding-top:30px"><h2>What you get</h2><div class="boxes">
+    <div>Simple, practical tips for picking flowers, combining them confidently, and extending their freshness.</div>
+    <div>A curated selection of fresh spring blooms to create your own unique arrangement.</div>
+    <div>We handle all the event logistics - from setup to flowers. We can host at your location or suggest the perfect space. You just come and enjoy.</div>
+  </div></div>
+  <div class="how">
+    <img src="img/9958.jpg" alt="">
+    <div class="t"><h3 class="serif">How it works</h3><ul>
+      <li>You fill in the form below with your idea</li>
+      <li>I get back to you with availability and details</li>
+      <li>We design the perfect workshop for your group</li></ul></div>
+  </div>
+  <div class="plan">
+    <h2 class="serif">Plan your workshop</h2>
+    <p class="sub">Fill in the details below and we’ll get back to you with proposal within 1-2 days.</p>
+    <form class="f wide" data-form="Private Request Form" novalidate>
+      <div class="fld"><label>Name *</label><input name="Name" required></div>
+      <div class="fld"><label>Email *</label><input name="Email" type="email" required></div>
+      <div class="fld"><label>Phone *</label><div class="phone"><span>🇳🇱 +31</span><input name="Phone" type="tel" required></div></div>
+      <div class="fld"><label># Attendees *</label><input name="Attendees" required></div>
+      <div class="fld"><label>Shortly describe your request:</label><textarea name="Request"></textarea><div class="hint">Type of event , preferred date(s), location</div></div>
+      <button type="submit">Submit</button>
+      <div class="msg" role="status"></div>
+    </form>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section class="page" id="p-faq">
+  <div class="faq">
+    <h1 class="serif">Frequently asked questions</h1>
+    <div class="tab">General</div>
+    <div class="list">
+      <details open><summary>Do I need any prior experience to join a workshop?</summary><div>Not at all. My workshops are designed for beginners and flower lovers of all levels. I guide you step by step.</div></details>
+      <details><summary>What is included in the workshop?</summary><div>All flowers, materials, tools, logistics and a studio rental. You simply arrive and enjoy the process.</div></details>
+      <details><summary>How long does the workshop last?</summary><div>Workshops usually around 2 hours, more details around duration can be found in workshop description.</div></details>
+      <details><summary>Can I book a private or group workshop?</summary><div>Yes. Private events, birthdays, and small group experiences can be arranged upon request. Please reach out via email or WhatsApp.</div></details>
+      <details><summary>What is your cancellation policy?</summary><div>Cancellations within 24 hours of the workshop are non-refundable. If you can’t attend, you’re welcome to transfer your place to a friend.</div></details>
+      <details><summary>Why isn’t the exact location shared in advance?</summary><div>To respect the privacy of the venue and ensure a comfortable experience for all participants, the exact address is shared after booking confirmation.<br>If you would like to know more details before booking, feel free to send a message on Instagram or WhatsApp - I’ll be happy to assist.</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section class="page contact" id="p-contact">
+  <div class="band">
+    <h1 class="serif">Get in Touch</h1>
+    <p>Have a question or want to collaborate?<br>Feel free to reach out - I’m always happy to connect.</p>
+  </div>
+  <div class="contact-split">
+    <div class="txt">
+      <h2 class="serif">Contact</h2>
+      <p style="margin-top:50px">WhatsApp: +31641647245</p>
+      <p>Email: <a href="mailto:vika9817@gmail.com">vika9817@gmail.com</a></p>
+      <p>Monday - Friday 9:00am - 7:00pm CET</p>
+    </div>
+    <div class="img"><img src="img/9960.jpg" alt=""></div>
+  </div>
+</section>
+
+<!-- ================= SHOP ================= -->
+<section class="page" id="p-shop">
+  <div class="shop">
+    <div class="crumbs"><a href="#home">Home</a> &nbsp;›&nbsp; All Products</div>
+    <img class="banner" src="img/9989.jpg" alt="">
+    <h1>All Products</h1>
+    <div class="desc">This is your category description. It’s a great place to tell customers what this category is about, connect with your audience and draw attention to your products.</div>
+    <div class="body">
+      <div class="side"><h4>Browse by</h4>
+        <a href="#shop"><u>All Products</u></a><a href="#shop">Bath</a><a href="#shop">Kitchen</a><a href="#shop">New</a><a href="#shop">On the Go</a><a href="#shop">Sale</a></div>
+      <div>
+        <div class="bar"><span>1 product</span><span>Sort by: Recommended</span></div>
+        <a class="prod" href="#chupapi-workshop"><div class="pi"><img src="img/9941.jpg" alt=""><span>Upcoming</span></div><p>Chupapi Workshop</p><div class="pp">€ 65,00</div></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="page" id="p-chupapi-workshop">
+  <div class="shop"><div class="crumbs"><a href="#home">Home</a> &nbsp;›&nbsp; <a href="#shop">All Products</a> &nbsp;›&nbsp; Chupapi Workshop</div></div>
+  <div class="product">
+    <img src="img/9941.jpg" alt="Chupapi Workshop">
+    <div>
+      <h1>Chupapi Workshop</h1>
+      <div class="price">€ 65,00</div>
+      <label style="font-size:14px">Quantity *</label><br>
+      <input class="qty" type="number" min="1" value="1">
+      <button class="btn buy">Add to Cart</button>
+      <button class="btn outline buy">Buy Now</button>
+      <p class="note" id="buyNote">Online checkout isn’t connected in this preview yet.</p>
+      <p style="margin:20px 0 30px">I'm a product description. I'm a great place to add more details about your product such as sizing, material, care instructions and cleaning instructions.</p>
+      <details><summary>PRODUCT INFO</summary><p>I'm a product description. I'm a great place to add more details about your product such as sizing, material, care instructions and cleaning instructions.</p></details>
+      <details><summary>RETURN &amp; REFUND POLICY</summary><p>&nbsp;</p></details>
+      <details><summary>SHIPPING INFO</summary><p>I'm a shipping policy. I'm a great place to add more information about your shipping methods, packaging and cost. Providing straightforward information about your shipping policy is a great way to build trust and reassure your customers that they can buy from you with confidence.</p></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="site">
+  <div class="grid">
+    <div><p class="big serif">Let yourself bloom</p><p class="tag">Join a community that celebrates flowers, creativity, and intentional living.</p></div>
+    <nav><a href="#home">Home</a><a href="#contact">Contact</a><a href="#faq">FAQ</a></nav>
+    <div class="legal"><b>CoC:</b> 99951630<br><b>VAT:</b> NL005420987B56</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // ---- Form delivery ----
+  // When the site moves to your own domain, paste a form-service endpoint here
+  // (e.g. Formspree or Web3Forms set up with your email) and forms will email you.
+  var FORM_ENDPOINT = "";
+
+  var pages = ["home","giftcard","wild-flowers-picking","dahlia-flower-picking","on-demand-workshop","faq","contact","shop","chupapi-workshop"];
+  var titles = {"home":"Home","giftcard":"Giftcard","wild-flowers-picking":"Wild Flowers Picking","dahlia-flower-picking":"Dahlia Flower Picking","on-demand-workshop":"On Demand Flower Workshop","faq":"FAQ","contact":"Contact","shop":"All Products","chupapi-workshop":"Chupapi Workshop"};
+  var menu = document.getElementById("menu");
+
+  function route(){
+    var h = (location.hash||"").slice(1);
+    var target = null;
+    if (pages.indexOf(h) === -1) {
+      // in-page anchor like #giftform
+      var el = h && document.getElementById(h);
+      if (el) { var pg = el.closest(".page"); if (pg) { show(pg.id.slice(2)); el.scrollIntoView(); return; } }
+      h = "home";
+    }
+    show(h); window.scrollTo(0,0);
+  }
+  function show(h){
+    document.querySelectorAll(".page").forEach(function(p){ p.classList.toggle("active", p.id === "p-"+h); });
+    document.title = titles[h] + " | vic.in.bloom";
+    menu.classList.remove("open");
+  }
+  window.addEventListener("hashchange", route);
+  route();
+
+  document.getElementById("openMenu").onclick = function(){ menu.classList.add("open"); };
+  document.getElementById("closeMenu").onclick = function(){ menu.classList.remove("open"); };
+  menu.querySelectorAll("a").forEach(function(a){ a.addEventListener("click", function(){ if (a.getAttribute("href") === location.hash) menu.classList.remove("open"); }); });
+
+  document.querySelectorAll("[data-scroll]").forEach(function(a){
+    a.addEventListener("click", function(e){ e.preventDefault(); document.getElementById(a.dataset.scroll).scrollIntoView({behavior:"smooth"}); });
+  });
+
+  // Testimonials
+  var slides = document.querySelectorAll("#testi .slide"), dots = document.querySelectorAll("#testi .dots button"), cur = 0, timer;
+  function go(i){ cur = (i+slides.length)%slides.length; slides.forEach(function(s,k){ s.classList.toggle("on",k===cur); }); dots.forEach(function(d,k){ d.classList.toggle("on",k===cur); }); }
+  function auto(){ clearInterval(timer); timer = setInterval(function(){ go(cur+1); }, 6000); }
+  document.querySelector("#testi .prev").onclick = function(){ go(cur-1); auto(); };
+  document.querySelector("#testi .next").onclick = function(){ go(cur+1); auto(); };
+  dots.forEach(function(d,k){ d.onclick = function(){ go(k); auto(); }; });
+  auto();
+
+  // Instagram strip
+  var feed = document.getElementById("feed");
+  document.getElementById("feedNext").onclick = function(){
+    var max = feed.scrollWidth - feed.clientWidth;
+    feed.scrollTo({left: feed.scrollLeft >= max-5 ? 0 : feed.scrollLeft + 304, behavior:"smooth"});
+  };
+
+  // Shop buttons
+  document.querySelectorAll(".buy").forEach(function(b){ b.onclick = function(){ document.getElementById("buyNote").classList.add("on"); }; });
+
+  // Forms
+  document.querySelectorAll("form.f").forEach(function(f){
+    f.addEventListener("submit", function(e){
+      e.preventDefault();
+      var msg = f.querySelector(".msg"), ok = true;
+      f.querySelectorAll("[required]").forEach(function(i){
+        var bad = !i.value.trim() || (i.type==="email" && !/^\S+@\S+\.\S+$/.test(i.value));
+        i.style.borderColor = bad ? "#b3261e" : "";
+        if (bad) ok = false;
+      });
+      if (!ok) { msg.textContent = "Please fill in all required fields."; msg.classList.add("on"); return; }
+      if (!FORM_ENDPOINT) {
+        msg.textContent = "Thanks! (Preview only: this form isn’t connected yet, so nothing was sent.)";
+        msg.classList.add("on"); return;
+      }
+      var data = new FormData(f); data.append("_subject", f.dataset.form);
+      fetch(FORM_ENDPOINT, {method:"POST", body:data, headers:{Accept:"application/json"}})
+        .then(function(r){ if(!r.ok) throw 0; msg.textContent = "Thanks for submitting!"; f.reset(); })
+        .catch(function(){ msg.textContent = "Something went wrong. Please email vika9817@gmail.com."; })
+        .then(function(){ msg.classList.add("on"); });
+    });
+  });
+})();
+</script>
+</body>
+</html>
